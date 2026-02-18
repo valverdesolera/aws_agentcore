@@ -1,0 +1,16 @@
+infrastructure/
+.terraform/
+.venv/
+teilurvenv/
+data/
+notebooks/
+docs/
+.git/
+.env
+.env.*
+*.tfstate
+*.tfstate.backup
+__pycache__/
+*.pyc
+.DS_Store
+.cursor/

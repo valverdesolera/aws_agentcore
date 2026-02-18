@@ -1,0 +1,134 @@
+default_agent: teilur_stock_agent
+agents:
+  src_infrastructure_entrypoints_agentcore_handler:
+    name: src_infrastructure_entrypoints_agentcore_handler
+    language: python
+    node_version: '20'
+    entrypoint: /Users/elevalabs/Documents/Proyectos/Teilur/src/infrastructure/entrypoints/agentcore_handler.py
+    deployment_type: direct_code_deploy
+    runtime_type: PYTHON_3_10
+    platform: linux/arm64
+    container_runtime: null
+    source_path: /Users/elevalabs/Documents/Proyectos/Teilur
+    aws:
+      execution_role: arn:aws:iam::531241048046:role/teilur-stock-agent-agentcore-execution
+      execution_role_auto_create: true
+      account: '531241048046'
+      region: us-east-1
+      ecr_repository: null
+      ecr_auto_create: false
+      s3_path: s3://bedrock-agentcore-codebuild-sources-531241048046-us-east-1
+      s3_auto_create: false
+      network_configuration:
+        network_mode: PUBLIC
+        network_mode_config: null
+      protocol_configuration:
+        server_protocol: HTTP
+      observability:
+        enabled: true
+      lifecycle_configuration:
+        idle_runtime_session_timeout: null
+        max_lifetime: null
+    bedrock_agentcore:
+      agent_id: src_infrastructure_entrypoints_agentcore_handler-PNrqUnGOtY
+      agent_arn: arn:aws:bedrock-agentcore:us-east-1:531241048046:runtime/src_infrastructure_entrypoints_agentcore_handler-PNrqUnGOtY
+      agent_session_id: null
+    codebuild:
+      project_name: null
+      execution_role: null
+      source_bucket: null
+    memory:
+      mode: STM_ONLY
+      memory_id: null
+      memory_arn: null
+      memory_name: src_infrastructure_entrypoints_agentcore_handler_memory
+      event_expiry_days: 30
+      first_invoke_memory_check_done: false
+      was_created_by_toolkit: false
+    identity:
+      credential_providers: []
+      workload: null
+    aws_jwt:
+      enabled: false
+      audiences: []
+      signing_algorithm: ES384
+      issuer_url: null
+      duration_seconds: 300
+    authorizer_configuration:
+      customJWTAuthorizer:
+        discoveryUrl: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_ngemulL07/.well-known/openid-configuration
+        allowedAudience:
+        - 7quopkm13gpej7ci3uevlg4a5
+    request_header_configuration:
+      requestHeaderAllowlist:
+      - Authorization
+    oauth_configuration: null
+    api_key_env_var_name: null
+    api_key_credential_provider_name: null
+    is_generated_by_agentcore_create: false
+  teilur_stock_agent:
+    name: teilur_stock_agent
+    language: python
+    node_version: '20'
+    entrypoint: /Users/elevalabs/Documents/Proyectos/Teilur/src/infrastructure/entrypoints/agentcore_handler.py
+    deployment_type: container
+    runtime_type: null
+    platform: linux/arm64
+    container_runtime: none
+    source_path: /Users/elevalabs/Documents/Proyectos/Teilur
+    aws:
+      execution_role: arn:aws:iam::531241048046:role/teilur-stock-agent-agentcore-execution
+      execution_role_auto_create: true
+      account: '531241048046'
+      region: us-east-1
+      ecr_repository: 531241048046.dkr.ecr.us-east-1.amazonaws.com/teilur-stock-agent-agent
+      ecr_auto_create: false
+      s3_path: null
+      s3_auto_create: false
+      network_configuration:
+        network_mode: PUBLIC
+        network_mode_config: null
+      protocol_configuration:
+        server_protocol: HTTP
+      observability:
+        enabled: true
+      lifecycle_configuration:
+        idle_runtime_session_timeout: null
+        max_lifetime: null
+    bedrock_agentcore:
+      agent_id: teilur_stock_agent-pTabPe3lvC
+      agent_arn: arn:aws:bedrock-agentcore:us-east-1:531241048046:runtime/teilur_stock_agent-pTabPe3lvC
+      agent_session_id: c0496340-67a6-48d1-8588-8420c55611da
+    codebuild:
+      project_name: bedrock-agentcore-teilur_stock_agent-builder
+      execution_role: arn:aws:iam::531241048046:role/AmazonBedrockAgentCoreSDKCodeBuild-us-east-1-ad58a6b7df
+      source_bucket: bedrock-agentcore-codebuild-sources-531241048046-us-east-1
+    memory:
+      mode: STM_ONLY
+      memory_id: teilur_stock_agent_mem-XSTGSqDboW
+      memory_arn: arn:aws:bedrock-agentcore:us-east-1:531241048046:memory/teilur_stock_agent_mem-XSTGSqDboW
+      memory_name: teilur_stock_agent_mem
+      event_expiry_days: 30
+      first_invoke_memory_check_done: true
+      was_created_by_toolkit: true
+    identity:
+      credential_providers: []
+      workload: null
+    aws_jwt:
+      enabled: false
+      audiences: []
+      signing_algorithm: ES384
+      issuer_url: null
+      duration_seconds: 300
+    authorizer_configuration:
+      customJWTAuthorizer:
+        discoveryUrl: https://cognito-idp.us-east-1.amazonaws.com/us-east-1_ngemulL07/.well-known/openid-configuration
+        allowedAudience:
+        - 7quopkm13gpej7ci3uevlg4a5
+    request_header_configuration:
+      requestHeaderAllowlist:
+      - Authorization
+    oauth_configuration: null
+    api_key_env_var_name: null
+    api_key_credential_provider_name: null
+    is_generated_by_agentcore_create: false

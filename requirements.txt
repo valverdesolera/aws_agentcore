@@ -1,0 +1,13 @@
+# AgentCore Runtime deployment requirements
+# This file is used by `agentcore deploy` to install dependencies in the container.
+# Only runtime dependencies — ingestion-only and local-dev packages are excluded.
+# boto3 is provided by the AWS runtime and must NOT be listed here.
+bedrock-agentcore
+langchain
+langchain-core
+langchain-community
+langchain-aws
+langgraph
+yfinance
+faiss-cpu
+langfuse

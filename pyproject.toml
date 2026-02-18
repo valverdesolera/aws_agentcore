@@ -1,0 +1,30 @@
+[project]
+name = "teilur"
+version = "0.1.0"
+description = "AMZN financial research agent — LangGraph ReAct agent deployed on AWS AgentCore Runtime"
+requires-python = ">=3.10"
+dependencies = [
+    # AWS
+    "boto3",
+    "bedrock-agentcore",
+    "bedrock-agentcore-starter-toolkit",
+    # LangChain / LangGraph
+    "langchain-core",
+    "langchain-community",
+    "langchain-aws",
+    "langchain-text-splitters",
+    "langgraph",
+    # Finance tools
+    "yfinance",
+    # Knowledge base
+    "faiss-cpu",
+    "pypdf",
+    "requests",
+    # Observability
+    "langfuse",
+    # API / Auth
+    "fastapi",
+    "uvicorn",
+    "httpx",
+    "python-jose[cryptography]",
+]
