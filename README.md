@@ -61,8 +61,11 @@ cd teilur-stock-agent
 ```bash
 cp .env.example .env
 # Edit .env and fill in:
-#   COGNITO_USER_POOL_ID, COGNITO_CLIENT_ID, COGNITO_REGION
-#   LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_HOST
+#   LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY, LANGFUSE_BASE_URL
+#   AWS_PROFILE, AWS_ACCOUNT_ID
+#
+# Leave COGNITO_USER_POOL_ID, COGNITO_CLIENT_ID, LANGFUSE_SECRET_ARN, and
+# AGENTCORE_ENDPOINT blank for now — you will fill them in after Steps 4 and 8.
 ```
 
 ### Step 3 — Install Python dependencies
@@ -75,6 +78,17 @@ pip install fastapi uvicorn python-dotenv   # local dev extras
 ```
 
 ### Step 4 — Deploy cloud infrastructure with Terraform
+
+Before running `terraform apply`, edit `infrastructure/terraform.tfvars` with your Langfuse credentials (required variables with no default):
+
+```hcl
+# infrastructure/terraform.tfvars
+langfuse_public_key = "pk-lf-..."
+langfuse_secret_key = "sk-lf-..."
+langfuse_base_url   = "https://us.cloud.langfuse.com"
+```
+
+Then deploy:
 
 ```bash
 cd infrastructure
@@ -93,6 +107,8 @@ terraform output -raw agentcore_execution_role_arn
 terraform output -raw langfuse_secret_arn
 ```
 
+Copy `cognito_user_pool_id`, `cognito_user_pool_client_id`, and `langfuse_secret_arn` back into your `.env` file now.
+
 ### Step 5 — Build the knowledge base
 
 Downloads the three Amazon financial documents, chunks them, embeds them with Bedrock Titan, and persists the FAISS index to `vectorstore/`.
@@ -103,35 +119,25 @@ python -m src.infrastructure.knowledge_base.ingest
 
 ### Step 6 — Create a Cognito test user
 
+The credentials below match what is pre-filled in the UAT notebook (`notebooks/demo.ipynb`).
+
 ```bash
 POOL_ID=$(cd infrastructure && terraform output -raw cognito_user_pool_id)
 
 aws cognito-idp admin-create-user \
   --user-pool-id "$POOL_ID" \
-  --username testuser@example.com
+  --username testuser@teilur.dev
 
 aws cognito-idp admin-set-user-password \
   --user-pool-id "$POOL_ID" \
-  --username testuser@example.com \
-  --password "TestPassword123!" \
+  --username testuser@teilur.dev \
+  --password "Teilur2026!" \
   --permanent
 ```
 
-### Step 7 — Store Langfuse credentials in Secrets Manager
+### Step 7 — Configure and deploy to AgentCore
 
-```bash
-SECRET_ARN=$(cd infrastructure && terraform output -raw langfuse_secret_arn)
-
-aws secretsmanager put-secret-value \
-  --secret-id "$SECRET_ARN" \
-  --secret-string '{
-    "LANGFUSE_PUBLIC_KEY": "<your-public-key>",
-    "LANGFUSE_SECRET_KEY": "<your-secret-key>",
-    "LANGFUSE_HOST": "https://cloud.langfuse.com"
-  }'
-```
-
-### Step 8 — Configure and deploy to AgentCore
+> **Note:** The Langfuse credentials were already stored in Secrets Manager by `terraform apply` (via `secrets.tf`). No manual secret upload is required.
 
 ```bash
 ROLE_ARN=$(cd infrastructure && terraform output -raw agentcore_execution_role_arn)
