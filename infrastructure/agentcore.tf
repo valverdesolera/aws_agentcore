@@ -13,7 +13,7 @@ locals {
 # Short-term memory (STM) for agent session context. Mirrors the CLI-created
 # memory from .bedrock_agentcore.yaml (event_expiry_days: 30).
 resource "aws_bedrockagentcore_memory" "agent" {
-  name                  = "${var.project_name}-memory"
+  name                  = replace("${var.project_name}_memory", "-", "_")
   event_expiry_duration = 30
 
   tags = {
