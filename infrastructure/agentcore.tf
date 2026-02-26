@@ -26,7 +26,7 @@ resource "aws_bedrockagentcore_memory" "agent" {
 # Depends on ECR image already being present (built + pushed separately via CI
 # or `docker build/push` before `terraform apply`).
 resource "aws_bedrockagentcore_agent_runtime" "agent" {
-  agent_runtime_name = var.project_name
+  agent_runtime_name = replace(var.project_name, "-", "_")
   description        = "LangGraph ReAct financial analysis agent"
   role_arn           = aws_iam_role.agentcore_execution.arn
 
