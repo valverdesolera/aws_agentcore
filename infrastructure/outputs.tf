@@ -26,3 +26,23 @@ output "agentcore_execution_role_arn" {
 output "langfuse_secret_arn" {
   value = aws_secretsmanager_secret.langfuse.arn
 }
+
+output "agentcore_endpoint" {
+  description = "Full AgentCore invocation URL — set as AGENT_ENDPOINT in the UAT notebook"
+  value       = local.agent_endpoint
+}
+
+output "agentcore_runtime_id" {
+  description = "AgentCore Runtime identifier — use with 'aws bedrock-agentcore-control get-agent-runtime'"
+  value       = aws_bedrockagentcore_agent_runtime.agent.agent_runtime_id
+}
+
+output "agentcore_runtime_arn" {
+  description = "AgentCore Runtime ARN"
+  value       = aws_bedrockagentcore_agent_runtime.agent.agent_runtime_arn
+}
+
+output "agentcore_memory_arn" {
+  description = "AgentCore Memory ARN — reference this in the app if memory is accessed directly"
+  value       = aws_bedrockagentcore_memory.agent.arn
+}
